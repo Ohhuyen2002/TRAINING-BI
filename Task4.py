@@ -57,4 +57,4 @@ if(today[1] in weather_forecast and today[0] in week):
         if(i==7):
             i=0
 else:
-    print('Is\'nt in file')
+    print('Isn\'t in file')
