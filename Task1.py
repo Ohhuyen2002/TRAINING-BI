@@ -1,14 +1,20 @@
-x=int(input('Enter a number: '))
+#task1
 
-
-def isPrime(x):
-    if( x==2):
+def isPrime(number):
+    if( number==2):
         return True
-    if (x<=1):
+    if (number<=1):
         return False
-    for i in range(2, x):
-        if(x%i==0):
+    for i in range(2, number):
+        if(number%i==0):
             return False
     return True
 
-print(isPrime(x))
+
+def main():
+    number=int(input('Enter a number: '))
+    print(isPrime(number))
+    
+    
+if __name__=="__main__":
+    main()

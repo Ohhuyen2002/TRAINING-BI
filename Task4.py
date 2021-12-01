@@ -1,60 +1,65 @@
 #task 4
 
-#Read weather forecast file
-file=open('dubaothoitiet.txt')
-data1=file.read()
-file.close()
-print(data1)
+def read_file(name_file):
+    file=open(name_file)
+    data1=file.read()
+    file.close()
+    return (data1)
 
 
-#Read symbol file
-fp=open('kyhieu.txt')
-data2=fp.read()
-fp.close()
-print(data2)
+def transform_string_to_dict (data):
+    newDict= dict((key.strip(), value.strip())
+                     for key, value in (element.split(':')
+                                  for element in data.split('\n')))
+    return newDict
 
 
-#Transform string to dict
-weather_forecast = dict((x.strip(), y.strip())
-                     for x, y in (element.split(':')
-                                  for element in data1.split('\n')))
-
-
-print( weather_forecast)
-symbol=dict((x.strip(), y.strip())
-                     for x, y in (element.split(':')
-                                  for element in data2.split('\n')))
-
-
-week=['Monday', 'Tuesday', 'Wednesday',
-     'Thursday', 'Friday', 'Saturday', 'Sunday']
-
-
-day=input("Enter today (ex: Monday-2/10/2022): ")
-
-n=int(input("Enter a number: n="))
-while(n<=0):
-    n=int(input("Enter a number again: n= "))
+def find_position(day, array):
+    for i in range(0, len(array)):
+            if(day==array[i]):
+                return i
+            
+            
+def check_and_print (today, weatherForecast, weatherSymbol, week , number):
     
-today=day.split('-')
+    if(today[1] in weatherForecast and today[0] in week):
+        Ddmmyy=list(weatherForecast)
+        positionDay=find_position(today[0], week)
+        positionDdmmyy=find_position(today[1], Ddmmyy)
+        
+        for positionDdmmyy in range(positionDdmmyy, positionDdmmyy+number):
+            if(positionDdmmyy>=len(Ddmmyy)):
+                break
+            print(week[positionDay], end=" - ")
+            print(Ddmmyy[positionDdmmyy],end=": ")
+            print(weatherSymbol[weatherForecast[Ddmmyy[positionDdmmyy]]])
+            positionDay+=1
+            if(positionDay==7):positionDay=0
+    else:
+        print('Isn\'t in file')
 
 
-if(today[1] in weather_forecast and today[0] in week):
-    temp=list(weather_forecast)
-    for j in range(1, len(temp)):
-        if(today[1]==temp[j]):
-            break
-    for i in range(0, len(week)):
-        if(today[0]==week[i]):
-            break
-    for j in range(j, j+n):
-        if(j>=len(temp)):
-            break
-        print(week[i], end=" - ")
-        print(temp[j],end=": ")
-        print(symbol[weather_forecast[temp[j]]])
-        i+=1
-        if(i==7):
-            i=0
-else:
-    print('Isn\'t in file')
+def main():
+    week=['Monday', 'Tuesday', 'Wednesday',
+     'Thursday', 'Friday', 'Saturday', 'Sunday']
+    
+    data1=read_file("dubaothoitiet.txt")
+    data2=read_file("kyhieu.txt")
+    weatherForecast=transform_string_to_dict(data1)
+    weatherSymbol=transform_string_to_dict(data2)
+    
+    day=input("Enter today (ex: Monday-2/10/2022): ")
+    today=day.split('-')
+    number=int(input("Enter a number: "))
+    while(number<=0):
+        number=int(input("Enter a number again:  "))
+        
+    check_and_print(today, weatherForecast, weatherSymbol, week, number)
+    
+
+if __name__=="__main__":
+    main()
+
+
+    
+    
