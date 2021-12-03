@@ -15,6 +15,7 @@ def least_common_multiple(number1, number2):
 def main():
     number1=int(input('Enter the firt number: '))
     number2=int(input('Enter the second number: '))
+    print('LCM:', end=' ')
     print(least_common_multiple(number1, number2))
     
     

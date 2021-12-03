@@ -13,6 +13,7 @@ def isPrime(number):
 
 def main():
     number=int(input('Enter a number: '))
+    print('Result:', end=' ')
     print(isPrime(number))
     
     

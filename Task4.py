@@ -27,7 +27,7 @@ def check_and_print (today, weatherForecast, weatherSymbol, week , number):
         positionDay=find_position(today[0], week)
         positionDdmmyy=find_position(today[1], Ddmmyy)
         
-        for positionDdmmyy in range(positionDdmmyy, positionDdmmyy+number):
+        for positionDdmmyy in range(positionDdmmyy, positionDdmmyy+number+1):
             if(positionDdmmyy>=len(Ddmmyy)):
                 break
             print(week[positionDay], end=" - ")
