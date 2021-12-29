@@ -1,0 +1,42 @@
+---TẠO BẢNG TỪ FILE EXCEL EMPLOYEE_DATA.CSV
+CREATE TABLE EMPLOYEETABLE(
+id SERIAL PRIMARY KEY, 
+employee_name TEXT, 
+branch TEXT)
+
+COPY PUBLIC.employeetable from 'D:\SQL\employee_data.csv' DELIMITER ',' CSV HEADER
+SELECT * FROM public.employeetable
+
+---TẠO BẢNG TỪ FILE EXCEL BRANCH_DATA.CSV
+CREATE TABLE BRANCHTABLE(
+branch_id SERIAL PRIMARY KEY, 
+name TEXT)
+
+COPY PUBLIC.branchtable from 'D:\SQL\branch_data.csv' DELIMITER ',' CSV HEADER
+SELECT * FROM public.branchtable
+
+---TẠO BẢNG TỪ FILE EXCEL ORDER_DATA.CSV
+CREATE TABLE ORDERTABLE(
+percent_contribute REAL, 
+brokerage_fee SERIAL , 
+created_at TIMESTAMP, 
+branch_id SERIAL REFERENCES branchtable, 
+employee_id SERIAL  REFERENCES employeetable)
+
+COPY PUBLIC.ordertable from 'D:\SQL\order_data.csv' DELIMITER ',' CSV HEADER
+SELECT * FROM public.ordertable
+
+
+---XUẤT RA TÊN NHÂN VIÊN, TỔNG DOANH SỐ, VÀ TÊN VĂN PHÒNG
+SELECT employee_name, name ,SUM ((percent_contribute*brokerage_fee)/100) AS total
+FROM employeetable,  branchtable, ordertable
+WHERE employeetable.id=ordertable.employee_id AND branchtable.branch_id=ordertable.branch_id
+GROUP BY employee_name, name
+
+
+---LỌC RA TÊN NHÂN VIÊN, TÊN VĂN PHÒNG, TỔNG DOANH SỐ >50000
+SELECT employee_name, name ,SUM ((percent_contribute*brokerage_fee)/100) AS total
+FROM employeetable,  branchtable, ordertable
+WHERE employeetable.id=ordertable.employee_id AND branchtable.branch_id=ordertable.branch_id
+GROUP BY employee_name, name
+HAVING SUM ((percent_contribute*brokerage_fee)/100) >50000
